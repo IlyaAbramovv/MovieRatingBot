@@ -1,0 +1,102 @@
+openapi: 3.0.1
+info:
+  title: MovieRating API
+  version: 1.0.0
+  contact:
+    name: Ilya Abramov
+paths:
+  /movie/{movieName}:
+    get:
+      summary: Получить информацию о фильме
+      parameters:
+        - name: movieName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Информация о фильме
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MovieInfoResponse'
+        '404':
+          description: Фильм не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+
+  /rateMovie:
+    post:
+      summary: Оценить фильм
+      parameters:
+        - name: movieName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: rating
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Фильму добавлена оценка
+        '400':
+          description: Некорректные параметры запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: Фильм не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+    delete:
+      summary: Удалить оценку фильма
+      parameters:
+        - name: movieName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Оценка успешно удалена
+        '400':
+          description: Некорректные параметры запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+        '404':
+          description: Фильм не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiErrorResponse'
+components:
+  schemas:
+    MovieInfoResponse:
+      type: string
+    ApiErrorResponse:
+      type: object
+      properties:
+        description:
+          type: string
+        code:
+          type: string
+        exceptionName:
+          type: string
+        exceptionMessage:
+          type: string
+        stacktrace:
+          type: array
+          items:
+            type: string
