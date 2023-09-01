@@ -1,17 +1,22 @@
 package service
 
-import database.RatingRepository
+import database.dao.RatingRepository
 
 class MovieRatingService(
     private val ratingRepository: RatingRepository
 ) {
-    fun rate(movieName: String, rating: Int) {
-        ratingRepository.addRating(movieName, rating)
+    suspend fun rate(movieName: String, rating: Int) {
+        ratingRepository.addReview(movieName, rating)
         println("rated $movieName with $rating")
     }
 
-    fun deleteRating(movieName: String) {
-        ratingRepository.removeRating(movieName)
-        println("deleted rating for $movieName")
+    suspend fun deleteRating(movieName: String) {
+        val movieId = ratingRepository.allReviews().firstOrNull { it.movieName == movieName }?.id
+        if (movieId != null) {
+            ratingRepository.deleteReview(movieId)
+            println("Deleted rating for $movieName")
+        } else {
+            println("No rating found for $movieName")
+        }
     }
 }

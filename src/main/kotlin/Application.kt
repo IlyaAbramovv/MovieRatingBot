@@ -1,3 +1,4 @@
+import database.dao.DatabaseFactory
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
@@ -6,6 +7,8 @@ import org.koin.core.context.startKoin
 import io.ktor.server.plugins.contentnegotiation.*
 
 fun Application.module() {
+    log.info("Starting application")
+
     startKoin {
         modules(appModule)
     }
@@ -16,6 +19,8 @@ fun Application.module() {
     install(ContentNegotiation) {
         json()
     }
+    DatabaseFactory.init()
     configureRouting()
+
     log.info("Application started")
 }
