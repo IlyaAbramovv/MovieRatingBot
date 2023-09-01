@@ -17,4 +17,5 @@ fun Application.module() {
         json()
     }
     configureRouting()
+    log.info("Application started")
 }
