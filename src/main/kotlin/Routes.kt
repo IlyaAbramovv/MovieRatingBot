@@ -24,6 +24,7 @@ fun Application.configureRouting() {
         route("rateMovie") {
             post("{movieName}/{rating}" ) {
                 moviesController.rateMovie(call)
+                call.respond(HttpStatusCode.OK)
             }
             delete("{movieName}") {
                 moviesController.deleteRating(call)

@@ -28,7 +28,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiErrorResponse'
 
-  /rateMovie:
+  /rateMovie/{movieName}/{rating}:
     post:
       summary: Оценить фильм
       parameters:
