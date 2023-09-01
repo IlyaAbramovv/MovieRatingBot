@@ -23,10 +23,6 @@ paths:
                 $ref: '#/components/schemas/MovieInfoResponse'
         '404':
           description: Фильм не найден
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
 
   /rateMovie/{movieName}/{rating}:
     post:
@@ -48,16 +44,8 @@ paths:
           description: Фильму добавлена оценка
         '400':
           description: Некорректные параметры запроса
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
         '404':
           description: Фильм не найден
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
     delete:
       summary: Удалить оценку фильма
       parameters:
@@ -71,32 +59,9 @@ paths:
           description: Оценка успешно удалена
         '400':
           description: Некорректные параметры запроса
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
         '404':
           description: Фильм не найден
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ApiErrorResponse'
 components:
   schemas:
     MovieInfoResponse:
       type: string
-    ApiErrorResponse:
-      type: object
-      properties:
-        description:
-          type: string
-        code:
-          type: string
-        exceptionName:
-          type: string
-        exceptionMessage:
-          type: string
-        stacktrace:
-          type: array
-          items:
-            type: string

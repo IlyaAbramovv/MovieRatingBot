@@ -1,4 +1,5 @@
 import controller.MoviesController
+import controller.TgChatController
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.swagger.*
@@ -9,6 +10,7 @@ import org.koin.ktor.ext.inject
 
 fun Application.configureRouting() {
     val moviesController: MoviesController by inject()
+    val tgChatController: TgChatController by inject()
 
     routing {
         swaggerUI(path = "swagger", swaggerFile = "api.yaml")
@@ -28,6 +30,15 @@ fun Application.configureRouting() {
             }
             delete("{movieName}") {
                 moviesController.deleteRating(call)
+            }
+        }
+
+        route("telegram") {
+            post("register-chat/{id}") {
+                tgChatController.registerChat(call)
+            }
+            delete("{id}") {
+                tgChatController.deleteChat(call)
             }
         }
     }
