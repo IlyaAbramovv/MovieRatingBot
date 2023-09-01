@@ -17,7 +17,6 @@ dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-server-cors:$ktor_version")
     implementation("io.ktor:ktor-server-netty:$ktor_version")
-    implementation("io.ktor:ktor-server-openapi:$ktor_version")
     implementation("io.ktor:ktor-server-swagger:$ktor_version")
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
     implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
