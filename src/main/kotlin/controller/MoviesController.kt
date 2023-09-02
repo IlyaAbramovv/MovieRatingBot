@@ -16,14 +16,16 @@ class MoviesController(
 
     suspend fun rateMovie(call: ApplicationCall ) {
         val movieName = call.parameters.getOrFail("movieName")
-        val rating = call.parameters.getOrFail("rating").toInt()
-        movieRatingService.rate(movieName, rating)
+        val rating = call.request.queryParameters.getOrFail<Int>("rating")
+        val tgChatId = call.request.queryParameters.getOrFail<Long>("tg-chat-id")
+        movieRatingService.rate(movieName, rating, tgChatId)
         call.respond("Movie rated")
     }
 
     suspend fun deleteRating(call: ApplicationCall) {
         val movieName = call.parameters.getOrFail("movieName")
-        movieRatingService.deleteRating(movieName)
+        val tgChatId = call.request.queryParameters.getOrFail<Long>("tg-chat-id")
+        movieRatingService.deleteRating(movieName, tgChatId)
         call.respond("Movie rating deleted")
     }
 }

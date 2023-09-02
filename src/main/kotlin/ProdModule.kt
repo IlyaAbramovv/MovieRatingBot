@@ -9,6 +9,8 @@ import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.extensions.api.telegramBot
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.serialization.kotlinx.json.*
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import service.MovieRatingService
@@ -16,12 +18,14 @@ import service.TgChatService
 
 
 val appModule = module {
-    single<Config> {
-        Config(
-            System.getenv("TELEGRAM_BOT_TOKEN") ?: throw RuntimeException("TELEGRAM_BOT_TOKEN is missing")
-        )
+    single<Config> { Config(getEnvSafe("TELEGRAM_BOT_TOKEN")) }
+    single<HttpClient> {
+        HttpClient(CIO) {
+            install(ContentNegotiation) {
+                json()
+            }
+        }
     }
-    single<HttpClient> { HttpClient(CIO) }
     single<TelegramBot> { telegramBot(get<Config>().telegramBotToken) }
     singleOf(::MovieReviewBot)
 
@@ -33,4 +37,8 @@ val appModule = module {
 
     singleOf(::MoviesController)
     singleOf(::TgChatController)
+}
+
+fun getEnvSafe(name: String): String {
+    return System.getenv(name) ?: throw RuntimeException("$name env variable is missing")
 }

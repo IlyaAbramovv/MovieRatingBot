@@ -1,13 +1,13 @@
 package database.model
 
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.id.EntityID
+import org.jetbrains.exposed.dao.id.IntIdTable
 
-data class Review(val id: Int, val movieName: String, val rating: Int)
+class Review(id: EntityID<Int>, val movieName: String, val rating: Int, val tgChat: TgChat): IntEntity(id)
 
-object Reviews : Table() {
-    val id = integer("id").autoIncrement()
+object Reviews : IntIdTable() {
     val movieName = varchar("movie_name", 128)
     val rating = integer("rating")
-
-    override val primaryKey = PrimaryKey(id)
+    val tgChat = reference("tg-chat-id", TgChats)
 }

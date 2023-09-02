@@ -23,8 +23,30 @@ paths:
                 $ref: '#/components/schemas/MovieInfoResponse'
         '404':
           description: Фильм не найден
+    delete:
+      summary: Удалить оценку фильма
+      parameters:
+        - name: movieName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tg-chat-id
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
 
-  /rateMovie/{movieName}/{rating}:
+      responses:
+        '200':
+          description: Оценка успешно удалена
+        '400':
+          description: Некорректные параметры запроса
+        '404':
+          description: Фильм не найден
+
+  /movie/rate/{movieName}:
     post:
       summary: Оценить фильм
       parameters:
@@ -34,29 +56,20 @@ paths:
           schema:
             type: string
         - name: rating
-          in: path
+          in: query
           required: true
           schema:
             type: integer
             format: int32
+        - name: tg-chat-id
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
       responses:
         '200':
           description: Фильму добавлена оценка
-        '400':
-          description: Некорректные параметры запроса
-        '404':
-          description: Фильм не найден
-    delete:
-      summary: Удалить оценку фильма
-      parameters:
-        - name: movieName
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Оценка успешно удалена
         '400':
           description: Некорректные параметры запроса
         '404':

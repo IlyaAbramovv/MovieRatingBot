@@ -6,14 +6,14 @@ import database.model.TgChats
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.deleteWhere
-import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.insertIgnore
 
 class TgChatRepositoryImpl : TgChatRepository {
     private fun resultRowToTgChat(row: ResultRow): TgChat = TgChat(
         id = row[TgChats.id],
     )
     override suspend fun register(id: Long): TgChat? = dbQuery {
-        val insertStatement = TgChats.insert {
+        val insertStatement = TgChats.insertIgnore {
             it[TgChats.id] = id
         }
         insertStatement.resultedValues?.singleOrNull()?.let(::resultRowToTgChat)

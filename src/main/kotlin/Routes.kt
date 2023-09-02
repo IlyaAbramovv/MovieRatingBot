@@ -22,9 +22,7 @@ fun Application.configureRouting() {
             get("{movieName}") {
                 moviesController.movie(call)
             }
-        }
-        route("rateMovie") {
-            post("{movieName}/{rating}" ) {
+            post("rate/{movieName}" ) {
                 moviesController.rateMovie(call)
                 call.respond(HttpStatusCode.OK)
             }
