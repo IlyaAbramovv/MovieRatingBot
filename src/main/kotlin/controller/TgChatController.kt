@@ -1,6 +1,8 @@
 package controller
 
+import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.response.*
 import io.ktor.server.util.*
 import service.TgChatService
 
@@ -10,10 +12,11 @@ class TgChatController(
     suspend fun registerChat(call: ApplicationCall) {
         val chatId = call.parameters.getOrFail<Long>("id")
         tgChatService.registerChat(chatId)
+        call.respond(HttpStatusCode.OK, "Chat successfully registered")
     }
     suspend fun deleteChat(call: ApplicationCall) {
         val chatId = call.parameters.getOrFail<Long>("id")
         tgChatService.deleteChat(chatId)
-
+        call.respond(HttpStatusCode.OK, "Chat successfully deleted")
     }
 }
