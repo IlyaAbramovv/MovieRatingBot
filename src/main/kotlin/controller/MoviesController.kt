@@ -7,7 +7,7 @@ import io.ktor.server.util.*
 import service.MovieRatingService
 
 class MoviesController(
-    private val movieRatingService: MovieRatingService
+    private val movieRatingService: MovieRatingService,
 ) {
 
     suspend fun movie(call: ApplicationCall) {

@@ -39,9 +39,9 @@ dependencies {
     implementation("dev.inmo:tgbotapi:9.1.2")
 
     testImplementation(kotlin("test"))
-    testImplementation("io.mockk:mockk:1.4.1")
-
-
+    testImplementation("io.mockk:mockk:1.13.7")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("com.google.truth:truth:1.1.5")
 }
 
 tasks.test {
@@ -49,7 +49,7 @@ tasks.test {
 }
 
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(17)
 }
 
 application {
