@@ -27,7 +27,6 @@ val appModule = module {
         }
     }
     single<TelegramBot> { telegramBot(get<Config>().telegramBotToken) }
-    singleOf(::MovieReviewBot)
 
     single<RatingRepository> { RatingRepositoryImpl() }
     single<TgChatRepository> { TgChatRepositoryImpl() }
@@ -37,6 +36,7 @@ val appModule = module {
 
     singleOf(::MoviesController)
     singleOf(::TgChatController)
+    singleOf(::MovieReviewBot)
 }
 
 fun getEnvSafe(name: String): String {

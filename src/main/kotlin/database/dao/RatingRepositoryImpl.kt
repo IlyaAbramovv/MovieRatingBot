@@ -51,4 +51,11 @@ class RatingRepositoryImpl : RatingRepository {
     override suspend fun deleteReview(id: EntityID<Int>): Boolean = dbQuery {
         Reviews.deleteWhere { Reviews.id eq id } > 0
     }
+
+    override suspend fun movieRatingByNameAndTgChatId(movieName: String, tgChatId: Long): Int? = dbQuery {
+        Reviews
+            .select { (Reviews.tgChat eq tgChatId) and (Reviews.movieName eq movieName) }
+            .firstOrNull()
+            ?.let { it[Reviews.rating] }
+    }
 }

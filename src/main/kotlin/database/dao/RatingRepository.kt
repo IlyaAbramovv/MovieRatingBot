@@ -8,4 +8,5 @@ interface RatingRepository {
     suspend fun allReviews(): List<Review>
     suspend fun addReview(movieName: String, rating: Int, tgChatId: Long): Review?
     suspend fun deleteReview(id: EntityID<Int>): Boolean
+    suspend fun movieRatingByNameAndTgChatId(movieName: String, tgChatId: Long): Int?
 }

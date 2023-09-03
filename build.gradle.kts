@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.0"
     id("io.ktor.plugin") version "2.3.4"
+    kotlin("plugin.serialization") version "1.9.10"
     application
 }
 
@@ -38,6 +39,8 @@ dependencies {
     implementation("dev.inmo:tgbotapi:9.1.2")
 
     testImplementation(kotlin("test"))
+    testImplementation("io.mockk:mockk:1.4.1")
+
 
 }
 

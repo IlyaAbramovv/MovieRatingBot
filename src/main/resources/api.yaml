@@ -74,7 +74,43 @@ paths:
           description: Некорректные параметры запроса
         '404':
           description: Фильм не найден
+
+  /movie/present/{movdieName}:
+    get:
+      summary: Узнать оценку пользователя
+      parameters:
+        - name: movieName
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tg-chat-id
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Фильму добавлена оценка
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/PresentMovieResponse'
+        '400':
+          description: Некорректные параметры запроса
+        '404':
+          description: Фильм не найден
 components:
   schemas:
     MovieInfoResponse:
       type: string
+    PresentMovieResponse:
+      type: object
+      properties:
+        isPresent:
+          type: boolean
+        rating:
+          type: integer
+          format: int32
+          nullable: true

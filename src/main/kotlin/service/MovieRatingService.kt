@@ -1,6 +1,7 @@
 package service
 
 import database.dao.RatingRepository
+import dto.PresentMovieResponse
 
 class MovieRatingService(
     private val ratingRepository: RatingRepository
@@ -20,5 +21,10 @@ class MovieRatingService(
         } else {
             println("No rating found for $movieName")
         }
+    }
+
+    suspend fun present(movieName: String, tgChatId: Long): PresentMovieResponse {
+        val rating = ratingRepository.movieRatingByNameAndTgChatId(movieName, tgChatId)
+        return PresentMovieResponse(rating != null, rating)
     }
 }

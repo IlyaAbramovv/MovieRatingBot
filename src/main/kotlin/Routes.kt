@@ -24,10 +24,12 @@ fun Application.configureRouting() {
             }
             post("rate/{movieName}" ) {
                 moviesController.rateMovie(call)
-                call.respond(HttpStatusCode.OK)
             }
             delete("{movieName}") {
                 moviesController.deleteRating(call)
+            }
+            get("present/{movieName}") {
+                moviesController.present(call)
             }
         }
 
