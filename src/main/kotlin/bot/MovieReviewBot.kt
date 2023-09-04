@@ -91,8 +91,7 @@ class MovieReviewBot(
 
     private suspend fun BehaviourContext.handleStop(it: CommonMessage<TextContent>) {
         client.delete("http://localhost:8080/telegram/${it.chat.id.chatId}")
-        sendMessage(it.chat, "Stopping an application")
-        // TODO Каскадно чистить таблицу с обзорами от этого чата
+        sendMessage(it.chat, "Бот прекратил действие и все обзоры, связанные с этим чатом, удалены")
     }
 
     private suspend fun BehaviourContext.handleStart(it: CommonMessage<TextContent>) {

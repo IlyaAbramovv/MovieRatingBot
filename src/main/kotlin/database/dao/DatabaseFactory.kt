@@ -20,8 +20,7 @@ object DatabaseFactory {
         )
 
         transaction(database) {
-            create(Reviews)
-            create(TgChats)
+            create(Reviews, TgChats)
         }
     }
 

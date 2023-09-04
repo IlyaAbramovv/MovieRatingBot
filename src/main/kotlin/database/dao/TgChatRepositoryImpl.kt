@@ -12,6 +12,7 @@ class TgChatRepositoryImpl : TgChatRepository {
     private fun resultRowToTgChat(row: ResultRow): TgChat = TgChat(
         id = row[TgChats.id],
     )
+
     override suspend fun register(id: Long): TgChat? = dbQuery {
         val insertStatement = TgChats.insertIgnore {
             it[TgChats.id] = id
@@ -20,6 +21,6 @@ class TgChatRepositoryImpl : TgChatRepository {
     }
 
     override suspend fun delete(id: Long): Boolean = dbQuery {
-        TgChats.deleteWhere {TgChats.id eq id} > 0
+        TgChats.deleteWhere { TgChats.id eq id } > 0
     }
 }
