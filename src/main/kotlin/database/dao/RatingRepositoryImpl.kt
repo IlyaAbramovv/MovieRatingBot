@@ -3,7 +3,6 @@ package database.dao
 import database.dao.DatabaseFactory.dbQuery
 import database.model.Review
 import database.model.Reviews
-import database.model.TgChat
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -13,7 +12,7 @@ class RatingRepositoryImpl : RatingRepository {
         id = row[Reviews.id],
         movieName = row[Reviews.movieName],
         rating = row[Reviews.rating],
-        tgChat = TgChat(row[Reviews.tgChat])
+        tgChat = row[Reviews.tgChat],
     )
 
     override suspend fun review(id: Int): Review? = dbQuery {

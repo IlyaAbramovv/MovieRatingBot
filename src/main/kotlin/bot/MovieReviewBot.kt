@@ -16,6 +16,7 @@ import dto.PresentMovieResponse
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 
 class MovieReviewBot(
     private val bot: TelegramBot,
@@ -31,6 +32,26 @@ class MovieReviewBot(
             }
             onCommandWithArgs("rate") { message, args ->
                 handleRate(message, args)
+            }
+            onCommandWithArgs("register") { message, args ->
+                handleRegister(message, args)
+            }
+        }
+    }
+
+    private suspend fun BehaviourContext.handleRegister(message: CommonMessage<TextContent>, args: Array<String>) {
+        when {
+            args.isEmpty() -> reply(message, "Укажите имя под которым хотите зарегистрироваться")
+            else -> {
+                val request = client.post("http://localhost:8080/telegram/create-username/${message.chat.id.chatId}") {
+                    parameter("username", args[0])
+                }
+                when (request.status) {
+                    HttpStatusCode.OK -> sendMessage(message.chat, "Успешно зарегистрирован")
+                    HttpStatusCode.Conflict -> reply(message, "Пользователь с таким именем уже существует")
+                    HttpStatusCode.ExpectationFailed -> reply(message, "Вы уже зарегистрированы")
+                    else -> reply(message, "Что-то пошло не так, попробуйте позже")
+                }
             }
         }
     }

@@ -12,4 +12,16 @@ class TgChatService(
     suspend fun deleteChat(chatId: Long) {
         tgChatRepository.delete(chatId)
     }
+
+    suspend fun isUserRegistered(chatId: Long): Boolean {
+        return tgChatRepository.isUserRegistered(chatId)
+    }
+
+    suspend fun isUsernameAvailable(username: String): Boolean {
+        return tgChatRepository.usernameNotExists(username)
+    }
+
+    suspend fun createUsername(chatId: Long, username: String) {
+        tgChatRepository.createUsername(chatId, username)
+    }
 }

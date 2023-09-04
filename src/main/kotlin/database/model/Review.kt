@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption.CASCADE
 
-class Review(id: EntityID<Int>, val movieName: String, val rating: Int, val tgChat: TgChat): IntEntity(id)
+class Review(id: EntityID<Int>, val movieName: String, val rating: Int, val tgChat: EntityID<Long>) : IntEntity(id)
 
 object Reviews : IntIdTable() {
     val movieName = varchar("movie_name", 128)

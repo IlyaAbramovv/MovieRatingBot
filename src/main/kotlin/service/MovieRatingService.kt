@@ -13,7 +13,7 @@ class MovieRatingService(
     suspend fun deleteRating(movieName: String, tgChatId: Long) {
         val movieId = ratingRepository
             .allReviews()
-            .firstOrNull { it.movieName == movieName && it.tgChat.id.value == tgChatId}?.id
+            .firstOrNull { it.movieName == movieName && it.tgChat.value == tgChatId }?.id
         if (movieId != null) {
             ratingRepository.deleteReview(movieId)
         }
