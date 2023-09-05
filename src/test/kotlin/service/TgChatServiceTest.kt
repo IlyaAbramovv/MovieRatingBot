@@ -1,6 +1,7 @@
 package service
 
 import database.dao.TgChatRepository
+import database.dao.UserRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -9,7 +10,8 @@ import org.junit.jupiter.api.Test
 
 class TgChatServiceTest {
     private val tgChatRepository = mockk<TgChatRepository>()
-    private val service = TgChatService(tgChatRepository)
+    private val userRepository = mockk<UserRepository>()
+    private val service = TgChatService(tgChatRepository, userRepository)
 
     @Test
     fun registerChat() = runTest {

@@ -36,7 +36,7 @@ class TgChatRepositoryTest : IntegrationEnvironment() {
         val registerTgChat = repository.register(1)!!
 
         val actualTgChat = dbQuery {
-            TgChats.selectAll().singleOrNull()?.let { TgChat(it[TgChats.id]) }
+            TgChats.selectAll().singleOrNull()?.let { TgChat(it[TgChats.id], it[TgChats.user]) }
         }
 
         assertThat(actualTgChat).isNotNull()

@@ -3,13 +3,15 @@ package database.dao
 import database.dao.DatabaseFactory.dbQuery
 import database.model.TgChat
 import database.model.TgChats
+
+import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 
 class TgChatRepositoryImpl : TgChatRepository {
     private fun resultRowToTgChat(row: ResultRow): TgChat = TgChat(
         id = row[TgChats.id],
-        username = row[TgChats.username],
+        user = row[TgChats.user],
     )
 
     override suspend fun register(id: Long): TgChat? = dbQuery {
@@ -23,17 +25,21 @@ class TgChatRepositoryImpl : TgChatRepository {
         TgChats.deleteWhere { TgChats.id eq id } > 0
     }
 
-    override suspend fun createUsername(chatId: Long, username: String): Boolean = dbQuery {
+    override suspend fun createUsername(chatId: Long, user: Int): Boolean = dbQuery {
         TgChats.update({ TgChats.id eq chatId }) {
-            it[TgChats.username] = username
+            it[TgChats.user] = user
         } > 0
     }
 
-    override suspend fun usernameNotExists(username: String): Boolean = dbQuery {
-        TgChats.select { TgChats.username eq username }.empty()
+    override suspend fun usernameNotExists(user: Int): Boolean = dbQuery {
+        TgChats.select { TgChats.user eq user }.empty()
     }
 
     override suspend fun isUserRegistered(chatId: Long): Boolean = dbQuery {
-        TgChats.select { TgChats.id eq chatId }.firstOrNull()?.let { it[TgChats.username] } != null
+        TgChats.select { TgChats.id eq chatId }.firstOrNull()?.let { it[TgChats.user] } != null
+    }
+
+    override suspend fun userIdByChatId(chatId: Long): EntityID<Int> = dbQuery {
+        TgChats.select { TgChats.id eq chatId }.firstOrNull()?.let { it[TgChats.user] }!!
     }
 }

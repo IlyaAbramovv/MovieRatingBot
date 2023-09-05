@@ -1,10 +1,7 @@
 import bot.MovieReviewBot
 import controller.MoviesController
 import controller.TgChatController
-import database.dao.RatingRepository
-import database.dao.RatingRepositoryImpl
-import database.dao.TgChatRepository
-import database.dao.TgChatRepositoryImpl
+import database.dao.*
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.extensions.api.telegramBot
 import io.ktor.client.*
@@ -30,6 +27,7 @@ val appModule = module {
 
     single<RatingRepository> { RatingRepositoryImpl() }
     single<TgChatRepository> { TgChatRepositoryImpl() }
+    single<UserRepository> { UserRepositoryImpl() }
 
     singleOf(::MovieRatingService)
     singleOf(::TgChatService)

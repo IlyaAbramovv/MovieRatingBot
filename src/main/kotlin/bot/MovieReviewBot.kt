@@ -36,6 +36,32 @@ class MovieReviewBot(
             onCommandWithArgs("register") { message, args ->
                 handleRegister(message, args)
             }
+            onCommandWithArgs("subscribe") { message, args ->
+                handleSubscribe(args, message)
+            }
+        }
+    }
+
+    private suspend fun BehaviourContext.handleSubscribe(
+        args: Array<String>,
+        message: CommonMessage<TextContent>
+    ) {
+        val subscribeTo = args[0]
+        val request = client.post("http://localhost:8080/telegram/subscribe/${message.chat.id.chatId}/${subscribeTo}")
+        when (request.status) {
+            HttpStatusCode.OK -> sendMessage(
+                message.chat,
+                "Успешно подписаны на пользователя ${subscribeTo.boldMarkdownV2()}",
+                parseMode = MarkdownV2
+            )
+
+            HttpStatusCode.Unauthorized -> reply(
+                message,
+                "Сначала нужно зарегистрироваться с помощью /register ${"имя_пользователя".italicMarkdownV2()}",
+                parseMode = MarkdownV2
+            )
+
+            HttpStatusCode.NotFound -> reply(message, "Пользователь с таким именем не найден")
         }
     }
 

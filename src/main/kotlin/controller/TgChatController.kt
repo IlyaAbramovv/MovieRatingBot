@@ -42,4 +42,20 @@ class TgChatController(
             }
         }
     }
+
+    suspend fun subscribe(call: ApplicationCall) {
+        val chatId = call.parameters.getOrFail<Long>("id")
+        val username = call.parameters.getOrFail<String>("username")
+        val senderUsername = tgChatService.userNameByChatId(chatId)
+
+        when {
+            senderUsername == null -> call.respond(HttpStatusCode.Unauthorized, "Sender user is not registered")
+            username == senderUsername -> call.respond(HttpStatusCode.BadRequest, "Can't subscribe to yourself")
+            !tgChatService.isUsernameExists(username) -> call.respond(HttpStatusCode.NotFound, "Username not found")
+            else -> {
+                tgChatService.subscribe(senderUsername, username)
+                call.respond(HttpStatusCode.OK, "Subscribed successfully")
+            }
+        }
+    }
 }

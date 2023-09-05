@@ -2,6 +2,8 @@ package database.dao
 
 import database.model.Reviews
 import database.model.TgChats
+import database.model.Users
+import database.model.UsersUsers
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils.create
@@ -20,7 +22,7 @@ object DatabaseFactory {
         )
 
         transaction(database) {
-            create(Reviews, TgChats)
+            create(Reviews, TgChats, Users, UsersUsers)
         }
     }
 

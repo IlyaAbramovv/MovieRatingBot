@@ -4,7 +4,6 @@ import com.google.common.truth.Truth.assertThat
 import database.dao.RatingRepository
 import database.model.Review
 import database.model.Reviews
-import database.model.TgChat
 import database.model.TgChats
 import dto.PresentMovieResponse
 import io.mockk.coEvery
@@ -22,7 +21,7 @@ class MovieRatingServiceTest {
         EntityID(1, Reviews),
         "movie",
         10,
-        TgChat(EntityID(1L, TgChats))
+        EntityID(1L, TgChats),
     )
 
 

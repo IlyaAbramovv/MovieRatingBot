@@ -5,7 +5,6 @@ import com.google.common.truth.Truth.assertThat
 import database.dao.DatabaseFactory.dbQuery
 import database.model.Review
 import database.model.Reviews
-import database.model.TgChat
 import database.model.TgChats
 import kotlinx.coroutines.test.runTest
 import org.jetbrains.exposed.sql.*
@@ -168,6 +167,6 @@ class RatingRepositoryTest : IntegrationEnvironment() {
         id = row[Reviews.id],
         movieName = row[Reviews.movieName],
         rating = row[Reviews.rating],
-        tgChat = TgChat(row[Reviews.tgChat])
+        tgChat = row[Reviews.tgChat],
     )
 }
