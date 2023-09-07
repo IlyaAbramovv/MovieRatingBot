@@ -39,7 +39,7 @@ class MovieReviewBot(
             onCommandWithArgs("subscribe") { message, args ->
                 handleSubscribe(args, message)
             }
-        }
+        }.join()
     }
 
     private suspend fun BehaviourContext.handleSubscribe(
@@ -138,7 +138,7 @@ class MovieReviewBot(
 
     private suspend fun BehaviourContext.handleStop(it: CommonMessage<TextContent>) {
         client.delete("http://localhost:8080/telegram/${it.chat.id.chatId}")
-        sendMessage(it.chat, "Бот прекратил действие и все обзоры, связанные с этим чатом, удалены")
+        sendMessage(it.chat, "Бот прекратил действие. Все обзоры, связанные с этим чатом, удалены")
     }
 
     private suspend fun BehaviourContext.handleStart(it: CommonMessage<TextContent>) {

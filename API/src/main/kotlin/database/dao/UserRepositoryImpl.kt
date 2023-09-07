@@ -20,7 +20,7 @@ class UserRepositoryImpl : UserRepository {
     }
 
     override suspend fun isUsernameExists(username: String) = dbQuery {
-        Users.select { Users.name eq username }.empty()
+        !Users.select { Users.name eq username }.empty()
     }
 
     override suspend fun userIdByUsername(username: String): EntityID<Int>? = dbQuery {
