@@ -10,4 +10,5 @@ interface TgChatRepository {
     suspend fun usernameNotExists(user: Int): Boolean
     suspend fun isUserRegistered(chatId: Long): Boolean
     suspend fun userIdByChatId(chatId: Long): EntityID<Int>
+    suspend fun chatIdByUserId(userId: Int): EntityID<Long>
 }

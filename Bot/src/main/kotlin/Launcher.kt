@@ -1,10 +1,8 @@
-import bot.MovieReviewBot
-import org.koin.core.context.startKoin
+import io.ktor.server.application.*
+import io.ktor.server.engine.*
+import io.ktor.server.netty.*
 
-suspend fun main() {
+fun main() {
     println("Starting bot")
-    val ctx = startKoin {
-        modules(botModule)
-    }
-    ctx.koin.get<MovieReviewBot>().start()
+    embeddedServer(Netty, port = 8081, module = Application::module).start(wait = true)
 }

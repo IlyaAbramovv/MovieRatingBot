@@ -58,4 +58,15 @@ class TgChatController(
             }
         }
     }
+
+    suspend fun subscribers(call: ApplicationCall) {
+        val chatId = call.parameters.getOrFail<Long>("id")
+        val subscribers = tgChatService.subscribers(chatId)
+
+        if (subscribers == null) {
+            call.respond(HttpStatusCode.NotFound)
+        } else {
+            call.respond(HttpStatusCode.OK, subscribers)
+        }
+    }
 }

@@ -24,6 +24,7 @@ dependencies {
     implementation("io.ktor:ktor-server-content-negotiation:$ktor_version")
     implementation("io.ktor:ktor-server-status-pages:$ktor_version")
     implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
 
     implementation("io.insert-koin:koin-ktor:$koin_version")
     runtimeOnly("io.insert-koin:koin-core:$koin_version")
@@ -41,6 +42,7 @@ dependencies {
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
     testImplementation("com.google.truth:truth:1.1.5")
     testImplementation("io.ktor:ktor-server-test-host:$ktor_version")
+    testImplementation("io.ktor:ktor-client-mock:$ktor_version")
 
     testImplementation("org.testcontainers:testcontainers:1.19.0")
     testImplementation("org.testcontainers:junit-jupiter:1.19.0")

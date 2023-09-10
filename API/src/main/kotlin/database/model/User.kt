@@ -10,7 +10,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class User(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<User>(Users)
 
-    val name by Users.name
+    val name: String
+        get() = transaction {
+            Users.select { Users.id eq super.id }
+                .single()[Users.name]
+        }
     val subscribedTo: List<User>
         get() = transaction {
             UsersUsers

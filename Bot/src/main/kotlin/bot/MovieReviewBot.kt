@@ -3,12 +3,14 @@ package bot
 import dev.inmo.tgbotapi.bot.TelegramBot
 import dev.inmo.tgbotapi.extensions.api.send.reply
 import dev.inmo.tgbotapi.extensions.api.send.sendMessage
+import dev.inmo.tgbotapi.extensions.api.send.sendTextMessage
 import dev.inmo.tgbotapi.extensions.behaviour_builder.BehaviourContext
 import dev.inmo.tgbotapi.extensions.behaviour_builder.buildBehaviourWithLongPolling
 import dev.inmo.tgbotapi.extensions.behaviour_builder.triggers_handling.onCommand
 import dev.inmo.tgbotapi.extensions.behaviour_builder.triggers_handling.onCommandWithArgs
 import dev.inmo.tgbotapi.extensions.utils.formatting.boldMarkdownV2
 import dev.inmo.tgbotapi.extensions.utils.formatting.italicMarkdownV2
+import dev.inmo.tgbotapi.types.ChatId
 import dev.inmo.tgbotapi.types.message.MarkdownV2
 import dev.inmo.tgbotapi.types.message.abstracts.CommonMessage
 import dev.inmo.tgbotapi.types.message.content.TextContent
@@ -39,7 +41,11 @@ class MovieReviewBot(
             onCommandWithArgs("subscribe") { message, args ->
                 handleSubscribe(args, message)
             }
-        }.join()
+        }
+    }
+
+    suspend fun sendMessage(tgChatId: Long, message: String) {
+        bot.sendTextMessage(ChatId(tgChatId), message, parseMode = MarkdownV2)
     }
 
     private suspend fun BehaviourContext.handleSubscribe(

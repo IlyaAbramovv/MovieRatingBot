@@ -2,6 +2,7 @@ package service
 
 import database.dao.TgChatRepository
 import database.dao.UserRepository
+import dto.SubscribersResponse
 
 class TgChatService(
     private val tgChatRepository: TgChatRepository,
@@ -42,5 +43,16 @@ class TgChatService(
     suspend fun userNameByChatId(chatId: Long): String? {
         val userId = tgChatRepository.userIdByChatId(chatId)
         return userRepository.userById(userId)?.name
+    }
+
+    suspend fun subscribers(chatId: Long): SubscribersResponse? {
+        val userId = tgChatRepository.userIdByChatId(chatId)
+        val user = userRepository.userById(userId)
+        return user?.let {
+            SubscribersResponse(
+                user.name,
+                user.subscribers.map { tgChatRepository.chatIdByUserId(it.id.value).value }
+            )
+        }
     }
 }

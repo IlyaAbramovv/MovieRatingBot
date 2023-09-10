@@ -1,5 +1,11 @@
 import bot.MovieReviewBot
+import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
+import io.ktor.server.plugins.contentnegotiation.*
+import io.ktor.server.plugins.cors.routing.*
+import io.ktor.server.plugins.statuspages.*
+import io.ktor.server.response.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -12,6 +18,24 @@ fun Application.module() {
     val ctx = startKoin {
         modules(botModule)
     }
+
+    install(CORS) {
+        anyHost()
+        allowHeader(HttpHeaders.ContentType)
+    }
+    install(ContentNegotiation) {
+        json()
+    }
+    install(StatusPages) {
+        status(HttpStatusCode.NotFound) { call, status ->
+            call.respondText(text = "404: Page Not Found", status = status)
+        }
+        status(HttpStatusCode.BadRequest) { call, status ->
+            call.respondText(text = "400: Bad Request", status = status)
+        }
+    }
+
+    configureRouting()
 
     GlobalScope.launch {
         ctx.koin.get<MovieReviewBot>().start()

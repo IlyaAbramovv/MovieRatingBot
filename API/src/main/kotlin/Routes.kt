@@ -42,6 +42,9 @@ fun Application.configureRouting() {
             post("subscribe/{id}/{username}") {
                 tgChatController.subscribe(call)
             }
+            get("subscribers/{id}") {
+                tgChatController.subscribers(call)
+            }
             delete("{id}") {
                 tgChatController.deleteChat(call)
             }

@@ -42,4 +42,8 @@ class TgChatRepositoryImpl : TgChatRepository {
     override suspend fun userIdByChatId(chatId: Long): EntityID<Int> = dbQuery {
         TgChats.select { TgChats.id eq chatId }.firstOrNull()?.let { it[TgChats.user] }!!
     }
+
+    override suspend fun chatIdByUserId(userId: Int): EntityID<Long> = dbQuery {
+        TgChats.select { TgChats.user eq userId }.firstOrNull()?.let { it[TgChats.id] }!!
+    }
 }

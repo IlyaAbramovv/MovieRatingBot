@@ -6,6 +6,9 @@ import database.model.Review
 import database.model.Reviews
 import database.model.TgChats
 import dto.PresentMovieResponse
+import io.ktor.client.*
+import io.ktor.client.engine.mock.*
+import io.ktor.http.*
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -16,7 +19,8 @@ import org.junit.jupiter.api.Test
 
 class MovieRatingServiceTest {
     private val ratingRepository = mockk<RatingRepository>()
-    private val service = MovieRatingService(ratingRepository)
+    private val httpClient: HttpClient
+    private val service: MovieRatingService
     private val review: Review = Review(
         EntityID(1, Reviews),
         "movie",
@@ -24,11 +28,24 @@ class MovieRatingServiceTest {
         EntityID(1L, TgChats),
     )
 
+    init {
+        val mockEngine = MockEngine {
+            respond(
+                content = it.url.toString(),
+                status = HttpStatusCode.OK,
+                headers = headersOf(HttpHeaders.ContentType, "application/json")
+            )
+        }
+        httpClient = HttpClient(mockEngine)
+        service = MovieRatingService(ratingRepository, httpClient)
+    }
+
 
     @Test
     fun rate() = runTest {
         coEvery { ratingRepository.addReview(any(), any(), any()) } returns null
 
+        httpClient.engine
         service.rate(movieName = "", rating = 1, tgChatId = 1L)
         coVerify(exactly = 1) { ratingRepository.addReview("", 1, 1L) }
     }
