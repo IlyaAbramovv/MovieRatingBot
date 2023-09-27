@@ -11,10 +11,6 @@ val koin_version = "3.4.3"
 val ktor_version = "2.3.4"
 val exposed_version = "0.41.1"
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     implementation("io.ktor:ktor-server-core:$ktor_version")
     implementation("io.ktor:ktor-server-cors:$ktor_version")
@@ -47,10 +43,6 @@ dependencies {
     testImplementation("org.testcontainers:testcontainers:1.19.0")
     testImplementation("org.testcontainers:junit-jupiter:1.19.0")
     testImplementation("org.testcontainers:postgresql:1.19.0")
-}
-
-tasks.test {
-    useJUnitPlatform()
 }
 
 kotlin {
